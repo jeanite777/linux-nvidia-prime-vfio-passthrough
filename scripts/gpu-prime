@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# GPU PCIe address
+GPU="01:00.0"
+
+driver=$(lspci -nnk -s "$GPU" | awk -F': ' '/Kernel driver in use/ {print $2}')
+
+[[ -z "${driver:-}" ]] && fail "Could not find driver in use for $GPU"
+
+if [[ "$driver" != "nvidia" ]]; then
+    if [[ -n "${SUDO_USER:-}" ]]; then
+        UID_USER=$(id -u "$SUDO_USER")
+        sudo -u "#$UID_USER" DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$UID_USER/bus" notify-send -i dialog-error -t 3000 "GPU PRIME" "NVIDIA GPU is in passthrough mode, cannot run application"
+    else
+        notify-send -i dialog-error -t 3000 "GPU PRIME" "NVIDIA GPU is in passthrough mode, cannot run application"
+    fi
+    exit 1
+fi
+
+__NV_PRIME_RENDER_OFFLOAD=1 __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia LIBVA_DRIVER_NAME=nvidia __EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/10_nvidia.json VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json "$@"

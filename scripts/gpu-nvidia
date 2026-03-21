@@ -1,0 +1,59 @@
+#!/bin/bash
+set -euo pipefail
+
+# GPU PCIe address
+GPU="01:00.0"
+
+fail() {
+    echo "$1" >&2
+    exit 1
+}
+
+info() {
+    echo "$1"
+}
+
+safe_modprobe() {
+    local output
+    if ! output=$(modprobe "$@" 2>&1); then
+        if echo "$output" | grep -q "Module amdgpu is in use"; then
+            return 0
+        else
+            fail "$output"
+        fi
+    fi
+}
+
+if [[ "$EUID" -ne 0 ]]; then
+    fail "root permissions are required"
+fi
+
+UID_USER=$(id -u "${SUDO_USER:-1000}" 2>/dev/null || echo 1000)
+driver=$(lspci -nnk -s "$GPU" | awk -F': ' '/Kernel driver in use/ {print $2}')
+
+[[ -z "${driver:-}" ]] && fail "Could not find driver in use for $GPU"
+
+if [[ "$driver" == "nvidia" ]]; then
+    info "NVIDIA is already loaded"
+    exit 0
+fi
+
+if pgrep -af vfio-pci >/dev/null; then
+    sudo -u "#$UID_USER" DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$UID_USER/bus" notify-send -i dialog-error -t 3000 "GPU Driver" "VM is running, cannot switch driver"
+    fail "VM is running, can not switch driver"
+fi
+
+safe_modprobe -r vfio_pci || fail "Could not unload vfio_pci"
+safe_modprobe -r vfio_iommu_type1 || fail "Could not unload vfio_iommu_type1"
+safe_modprobe -r vfio || fail "Could not unload vfio"
+
+safe_modprobe i2c_nvidia_gpu || fail "Could not load i2c_nvidia_gpu"
+safe_modprobe nvidia || fail "Could not load nvidia"
+safe_modprobe nvidia_modeset || fail "Could not load nvidia_modeset"
+safe_modprobe nvidia_drm || fail "Could not load nvidia_drm"
+safe_modprobe nvidia_uvm || fail "Could not load nvidia_uvm"
+
+gpu-check
+info "Loaded NVIDIA driver successfuly"
+sudo -u "#$UID_USER" DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$UID_USER/bus" notify-send -i emblem-success -t 3000 "GPU Driver" "Switched GPU driver to NVIDIA"
+exit 0

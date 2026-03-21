@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# GPU PCIe address
+GPU="01:00.0"
+
+driver=$(lspci -nnk -s "$GPU" | awk -F': ' '/Kernel driver in use/ {print $2}')
+
+if [[ -z "$driver" ]]; then
+    echo "Could not find used driver"
+    lspci -nnk -s "$GPU"
+elif [[ "$driver" == "nvidia" ]]; then
+    echo "Driver in use: nvidia"
+elif [[ "$driver" == "vfio-pci" ]]; then
+    echo "Driver in use: vfio-pci"
+else
+    echo "Unknown driver: $driver"
+fi
