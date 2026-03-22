@@ -16,9 +16,12 @@ Check [**wiki**](https://github.com/mikigal/linux-nvidia-prime-vfio-passthrough/
 https://www.youtube.com/watch?v=KDzlMwB48c4
 
 ## Why?
-Windows sucks, and rebooting every time you want to run a game sucks even more.  
-Proton is good, but not for all games (mainly DirectX 12), so I want to get as much performance as possible.
+Windows **sucks**, but you know what sucks even more? Dual boot.
+
+Proton has gotten *REALLY* impressive, but there are unfortunately many games (mostly DX12 games on NVIDIA) that run far worse or don't support modern features like DLSS, frame generation or RT/PT on Linux. And what about apps? Photoshop, many CADs or professional applications outright don't support Linux. 
+
+Having an easy to use VM with full performance is really useful, especially considering with this setup you don't have to sacrifice your host performance as well.
 
 ## Authors
-- [Mikołaj Gałązka](https://github.com/mikigal) - research, testing, scripts, documentation
-- [Adam Grzegorzewski](https://github.com/SocketByte) - research, testing, documentation improvements, dvmm tool
+- [Mikołaj Gałązka](https://github.com/mikigal) - research, testing, scripts, guide
+- [Adam Grzegorzewski](https://github.com/SocketByte) - research, testing, guide improvements, dvmm tool
