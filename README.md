@@ -12,6 +12,9 @@ A comprehensive guide to setting up NVIDIA PRIME offloading alongside GPU passth
 ## How?
 Check [**wiki**](https://github.com/mikigal/linux-nvidia-prime-vfio-passthrough/wiki) for the full guide
 
+## Presentation
+https://www.youtube.com/watch?v=KDzlMwB48c4
+
 ## Why?
 Windows sucks, and rebooting every time you want to run a game sucks even more.  
 Proton is good, but not for all games (mainly DirectX 12), so I want to get as much performance as possible.
